@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
+
 
 # Create your models here.
 class Cook(AbstractUser):
@@ -29,3 +31,6 @@ class Dish(models.Model):
 
     def __str__(self):
         return f"{self.name} with price: {self.price}"
+
+    def get_absolute_url(self):
+        return reverse("kitchen:dish-detail", kwargs={"pk": self.pk})

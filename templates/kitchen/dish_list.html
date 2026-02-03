@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Dish list</h1>
+
+    <table class="table table-bordered">
+      <tr>
+        <th>Name of the dish</th>
+        <th>Type of dish</th>
+        <th>Price</th>
+        <th>Number of cooks</th>
+      </tr>
+      {% for dish in dishes %}
+        <tr>
+          <td><a href="{{ dish.get_absolute_url }}">{{ dish.name }}</a></td>
+          <td>{{ dish.dish_type.name }}</td>
+          <td>{{ dish.price }}</td>
+          <td>{{ dish.cooks.count }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+{% endblock %}
