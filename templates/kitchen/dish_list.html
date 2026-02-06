@@ -3,7 +3,37 @@
 {% block content %}
   <h1>Dish list</h1>
 
-    <table class="table  table-hover">
+  <form action="" method="get">
+    <div class="col-md-6">
+      <input
+        type="text"
+        name="search"
+        class="form-control"
+        placeholder="Search dishes..."
+        value="{{ search_query }}"
+      >
+    </div>
+
+    {% if selected_dish_type %}
+      <input type="hidden" name="dish_type" value="{{ selected_dish_type }}">
+    {% endif %}
+
+    {% if selected_cook %}
+      <input type="hidden" name="cook" value="{{ selected_cook }}">
+    {% endif %}
+
+    <div class="col-md-auto">
+      <button type="submit" class="btn btn-primary mt-2">
+        Search
+      </button>
+
+      <a href="{% url 'kitchen:dish-list' %}" class="btn btn-outline-secondary mt-2">
+        Reset
+      </a>
+    </div>
+  </form>
+
+  <table class="table  table-hover">
       <thead class="table-light">
         <tr>
         <th>Name of the dish</th>

@@ -24,6 +24,9 @@ class DishListView(generic.ListView):
         context["cooks"] = cooks
         context["selected_cook"] = int(selected_cook) if selected_cook else None
 
+        search_query = self.request.GET.get("search")
+        context["search_query"] = search_query
+
         return context
 
     def get_queryset(self):
@@ -37,6 +40,10 @@ class DishListView(generic.ListView):
         cook = self.request.GET.get("cook")
         if cook:
             queryset = queryset.filter(cooks__id=int(cook)).distinct()
+
+        search = self.request.GET.get("search")
+        if search:
+            queryset = queryset.filter(name__icontains=search)
 
         return queryset
 
