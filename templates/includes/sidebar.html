@@ -1,0 +1,41 @@
+<ul class="sidebar-nav list-group">
+  <h2>Types of dish</h2>
+
+    <a href="/dishes/"
+       class="list-group-item list-group-item-action badge
+       {% if not selected_dish_type %}active{% endif %}">
+      All Types of Dish
+    </a>
+
+  {% for dish_type in types_of_dish %}
+    <a href="?dish_type={{ dish_type.id }}"
+       class="list-group-item list-group-item-action text-middle badge
+       {% if dish_type.id == selected_dish_type %}active{% endif %}">
+       {{ dish_type.name }} ({{ dish_type.dishes_count }})
+    </a>
+
+  {% endfor %}
+
+</ul>
+
+<br>
+
+<ul class="sidebar-nav list-group">
+  <h2>Cooks</h2>
+
+    <a href="/dishes/"
+       class="list-group-item list-group-item-action badge
+       {% if not selected_cook %}active{% endif %}">
+      All Cooks
+    </a>
+
+  {% for cook in cooks %}
+    <a href="?cook={{ cook.id }}"
+       class="list-group-item list-group-item-action text-middle badge
+       {% if cook.id == selected_cook %}active{% endif %}">
+       {{ cook.username }}
+    </a>
+
+  {% endfor %}
+
+</ul>
