@@ -126,3 +126,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 AUTH_USER_MODEL = "kitchen.Cook"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "kitchen:dish-list"
+LOGOUT_REDIRECT_URL = "login"

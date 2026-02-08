@@ -1,4 +1,7 @@
 <ul class="sidebar-nav list-group">
+
+
+
   <h2>Types of dish</h2>
 
     <a href="/dishes/"
@@ -39,3 +42,17 @@
   {% endfor %}
 
 </ul>
+
+<br>
+
+{% if user.is_authenticated %}
+
+  <li class="list-group-item badge">Cook: {{ user.get_username }}</li>
+  <li class="list-group-item badge">
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-link p-0">Logout</button>
+    </form>
+  </li>
+
+{% endif %}
