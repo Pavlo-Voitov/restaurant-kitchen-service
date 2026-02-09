@@ -3,7 +3,12 @@
 {% block content %}
   <div class="card shadow-sm p-4">
     <div class="card-body">
-      <h2 class="card-title mb-3">{{ dish.name }}</h2>
+      <h2 class="card-title mb-3">
+        {{ dish.name }}
+        <a href="{% url 'kitchen:dish-update' pk=dish.id %}" class="btn btn-primary link-to-page">
+          Update
+        </a>
+      </h2>
       <h3 class="mb-3">Type of dish: <span class="badge bg-primary">{{ dish.dish_type }}</span></h3>
       <span class="fw-semibold text-success">Price: {{ dish.price }} $</span>
       <hr>

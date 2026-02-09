@@ -65,4 +65,7 @@ class DishCreateView(LoginRequiredMixin, generic.CreateView):
         self.object.cooks.add(self.request.user)
         return response
 
+class DishUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Dish
+    form_class = DishForm
 
