@@ -6,4 +6,4 @@ from kitchen.models import Dish
 class DishForm(forms.ModelForm):
     class Meta:
         model = Dish
-        fields ="__all__"
+        fields = ("name", "description", "price", "dish_type")

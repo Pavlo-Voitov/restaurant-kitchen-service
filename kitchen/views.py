@@ -59,3 +59,10 @@ class DishCreateView(LoginRequiredMixin, generic.CreateView):
     model = Dish
     form_class = DishForm
     success_url = reverse_lazy("kitchen:dish-list")
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.object.cooks.add(self.request.user)
+        return response
+
+
