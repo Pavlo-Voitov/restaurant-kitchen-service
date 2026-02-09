@@ -1,11 +1,18 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Count
-from django.shortcuts import render
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
 
 from .forms import DishForm
 from .models import Dish, DishType, Cook
+
+
+@login_required
+def index(request):
+    return redirect("kitchen:dish-list")
 
 
 class DishListView(LoginRequiredMixin, generic.ListView):
@@ -65,10 +72,20 @@ class DishCreateView(LoginRequiredMixin, generic.CreateView):
         self.object.cooks.add(self.request.user)
         return response
 
-class DishUpdateView(LoginRequiredMixin, generic.UpdateView):
+
+class DishUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Dish
     form_class = DishForm
 
-class DishDeleteView(LoginRequiredMixin, generic.DeleteView):
+    def test_func(self):
+        dish = self.get_object()
+        return self.request.user in dish.cooks.all()
+
+
+class DishDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = Dish
     success_url = reverse_lazy("kitchen:dish-list")
+
+    def test_func(self):
+        dish = self.get_object()
+        return self.request.user in dish.cooks.all()

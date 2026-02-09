@@ -14,13 +14,14 @@
       <p class="card-text">{{ dish.description }}</p>
       <p class="text-muted">Number of cooks: {{ dish.cooks.count }}</p>
 
-      <a href="{% url 'kitchen:dish-update' pk=dish.id %}" class="btn btn-primary link-to-page">
-        Update
-      </a>
-      <a href="{% url 'kitchen:dish-delete' pk=dish.id %}" class="btn btn-danger link-to-page ml-2">
-        Delete
-      </a>
-
+      {% if user in dish.cooks.all %}
+        <a href="{% url 'kitchen:dish-update' pk=dish.id %}" class="btn btn-primary link-to-page">
+          Update
+        </a>
+        <a href="{% url 'kitchen:dish-delete' pk=dish.id %}" class="btn btn-danger link-to-page ml-2">
+          Delete
+        </a>
+      {% endif %}
     </div>
   </div>
 
