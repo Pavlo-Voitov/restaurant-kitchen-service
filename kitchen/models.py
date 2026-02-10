@@ -34,3 +34,10 @@ class Dish(models.Model):
 
     def get_absolute_url(self):
         return reverse("kitchen:dish-detail", kwargs={"pk": self.pk})
+
+
+class Ingredient(models. Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
