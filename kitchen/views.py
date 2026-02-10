@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from .forms import DishForm
 from .models import Dish, DishType, Cook
@@ -70,6 +71,7 @@ class DishCreateView(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         self.object.cooks.add(self.request.user)
+        messages.success(self.request, "Dish created successfully!")
         return response
 
 
@@ -81,6 +83,11 @@ class DishUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
         dish = self.get_object()
         return self.request.user in dish.cooks.all()
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Dish updated successfully!")
+        return response
+
 
 class DishDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = Dish
@@ -89,3 +96,8 @@ class DishDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
     def test_func(self):
         dish = self.get_object()
         return self.request.user in dish.cooks.all()
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Dish deleted successfully!")
+        return response
