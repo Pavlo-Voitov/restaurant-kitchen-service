@@ -1,13 +1,12 @@
-from django.contrib.auth.decorators import login_required
 from django.db.models import Count
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .forms import DishForm
+from .forms import DishForm, DishIngredientFormSet
 from .models import Dish, DishType, Cook
 
 
@@ -78,6 +77,8 @@ class DishCreateView(LoginRequiredMixin, generic.CreateView):
 class DishUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Dish
     form_class = DishForm
+    template_name = "kitchen/dish_form.html"
+    success_url = reverse_lazy("kitchen:dish-list")
 
     def test_func(self):
         dish = self.get_object()
@@ -85,8 +86,30 @@ class DishUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        messages.success(self.request, "Dish updated successfully!")
         return response
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        formset = DishIngredientFormSet(instance=self.object)
+        return render(request, self.template_name, {"form": form,
+                                                    "formset": formset,
+                                                    "object": self.object,})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        formset = DishIngredientFormSet(request.POST, instance=self.object)
+
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+            messages.success(request, "Dish updated successfully!")
+            return redirect(self.success_url)
+
+        return render(request, self.template_name, {"form": form,
+                                                    "formset": formset,
+                                                    "object": self.object,})
 
 
 class DishDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):

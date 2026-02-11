@@ -14,14 +14,41 @@
       <p class="card-text">{{ dish.description }}</p>
       <p class="text-muted">Number of cooks: {{ dish.cooks.count }}</p>
 
+      <hr>
+
+      <h5 class="mt-3">Ingredients</h5>
+
+      {% if dish.ingredients.exists %}
+        {% with items=dish.dishingredient_set.all %}
+          {% if items %}
+            <ul class="list-group list-group-flush mb-3">
+              {% for item in items %}
+              <li class="list-group-item py-2 d-flex justify-content-between">
+                <span>{{ item.ingredient.name }}</span>
+                <span class="text-muted">
+                  {% if item.amount %}{{ item.amount }}{% endif %}
+                  {% if item.unit %} {{ item.unit }}{% endif %}
+                </span>
+              </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-muted mb-3">No ingredients yet.</p>
+          {% endif %}
+        {% endwith %}
+      {% endif %}
+
+      <hr>
+
       {% if user in dish.cooks.all %}
-        <a href="{% url 'kitchen:dish-update' pk=dish.id %}" class="btn btn-primary link-to-page">
+        <a href="{% url 'kitchen:dish-update' pk=dish.id %}" class="btn btn-primary link-to-page mt-2">
           Update
         </a>
-        <a href="{% url 'kitchen:dish-delete' pk=dish.id %}" class="btn btn-danger link-to-page ml-2">
+        <a href="{% url 'kitchen:dish-delete' pk=dish.id %}" class="btn btn-danger link-to-page ml-2 mt-2">
           Delete
         </a>
       {% endif %}
+
     </div>
   </div>
 

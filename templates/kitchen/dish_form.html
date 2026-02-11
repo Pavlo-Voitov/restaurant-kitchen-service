@@ -2,10 +2,22 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <h1>{{ object|yesno:"Update,Create" }} dish</h1>
+  <h1>{% if object %}Update dish{% else %}Create dish{% endif %}</h1>
   <form action="" method="post">
     {% csrf_token %}
     {{ form|crispy }}
-    <input type="submit" value="Submit" class="btn btn-primary">
+    <hr>
+    <h5>Ingredients</h5>
+
+    {{ formset.management_form }}
+
+    {% for f in formset %}
+      <div class="border rounded p-3 mb-2">
+        {{ f|crispy }}
+      </div>
+    {% endfor %}
+
+      <input type="submit" value="{% if object %}Save{% else %}Create{% endif %}" class="btn btn-primary">
   </form>
+
 {% endblock %}
