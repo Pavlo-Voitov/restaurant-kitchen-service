@@ -1,12 +1,12 @@
 from django.db.models import Count
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .forms import DishForm, DishIngredientFormSet
+from .forms import DishForm, DishIngredientFormSet, InviteCookForm
 from .models import Dish, DishType, Cook
 
 
@@ -84,10 +84,6 @@ class DishUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
         dish = self.get_object()
         return self.request.user in dish.cooks.all()
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        return response
-
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = self.get_form()
@@ -124,3 +120,25 @@ class DishDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
         response = super().form_valid(form)
         messages.success(self.request, "Dish deleted successfully!")
         return response
+
+
+@login_required
+def invite_me_to_create_dish(request, pk):
+    dish = get_object_or_404(Dish, pk=pk)
+    form = InviteCookForm(request.POST)
+
+    if form.is_valid():
+        username = form.cleaned_data["username"]
+    else:
+        messages.error(request, "Invalid form.")
+        return redirect("kitchen:dish-detail", pk=pk)
+
+    try:
+        cook = Cook.objects.get(username=username)
+    except:
+        messages.error(request, "User not found.")
+        return redirect("kitchen:dish-detail", pk=pk)
+
+    dish.cooks.add(cook)
+    messages.success(request, f"{username} was added as cook.")
+    return redirect("kitchen:dish-detail", pk=pk)

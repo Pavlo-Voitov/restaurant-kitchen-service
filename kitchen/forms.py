@@ -16,3 +16,9 @@ DishIngredientFormSet = inlineformset_factory(
     extra=1,
     can_delete=True,
 )
+
+class InviteCookForm(forms.Form):
+    username = forms.CharField(
+        max_length=150,
+        label="Cook username",
+    )
