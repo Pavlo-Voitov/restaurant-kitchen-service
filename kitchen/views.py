@@ -59,6 +59,12 @@ class DishListView(LoginRequiredMixin, generic.ListView):
 
         return queryset
 
+class DishTypeListView(LoginRequiredMixin, generic.ListView):
+    model = DishType
+    paginate_by = 5
+    context_object_name = "types"
+    template_name = "kitchen/dish_type_list.html"
+
 
 class DishDetailView(LoginRequiredMixin, generic.DetailView):
     model = Dish
