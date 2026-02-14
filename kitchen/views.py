@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic.list import MultipleObjectMixin
 
-from .forms import DishForm, DishIngredientFormSet, InviteCookForm, DishTypeCreateForm
+from .forms import DishForm, DishIngredientFormSet, InviteCookForm, DishTypeCreateForm, CookUpdateForm
 from .models import Dish, DishType, Cook
 
 
@@ -127,6 +127,22 @@ class DishUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
         return render(request, self.template_name, {"form": form,
                                                     "formset": formset,
                                                     "object": self.object,})
+
+class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = get_user_model()
+    form_class = CookUpdateForm
+    template_name = "kitchen/cook_update_form.html"
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Cook updated successfully!")
+        return response
+
+    def get_success_url(self):
+        return reverse_lazy("kitchen:cook-detail", kwargs={"pk": self.object.pk})
+
+    def get_object(self, queryset=None):
+        return self.request.user
 
 
 class DishDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
