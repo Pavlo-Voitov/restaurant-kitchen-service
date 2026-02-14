@@ -24,7 +24,7 @@ class InviteCookForm(forms.Form):
         label="Cook username",
     )
 
-class DishTypeCreateForm(forms.ModelForm):
+class DishTypeForm(forms.ModelForm):
     class Meta:
         model = DishType
         fields = "__all__"

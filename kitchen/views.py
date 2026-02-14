@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic.list import MultipleObjectMixin
 
-from .forms import DishForm, DishIngredientFormSet, InviteCookForm, DishTypeCreateForm, CookUpdateForm
+from .forms import DishForm, DishIngredientFormSet, InviteCookForm, CookUpdateForm, DishTypeForm
 from .models import Dish, DishType, Cook
 
 
@@ -66,6 +66,13 @@ class DishTypeListView(LoginRequiredMixin, generic.ListView):
     template_name = "kitchen/dish_type_list.html"
 
 
+class DishTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model =DishType
+    form_class = DishTypeForm
+    template_name = "kitchen/dish_type_form.html"
+    success_url = reverse_lazy("kitchen:dish_type-list")
+
+
 class DishDetailView(LoginRequiredMixin, generic.DetailView):
     model = Dish
 
@@ -96,9 +103,13 @@ class DishCreateView(LoginRequiredMixin, generic.CreateView):
 
 class DishTypeCreateView(LoginRequiredMixin, generic.CreateView):
     model = DishType
-    form_class = DishTypeCreateForm
+    form_class = DishTypeForm
     template_name = "kitchen/dish_type_form.html"
     success_url = reverse_lazy("kitchen:dish-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "Type of dish created successfully!")
+        return super().form_valid(form)
 
 
 class DishUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
