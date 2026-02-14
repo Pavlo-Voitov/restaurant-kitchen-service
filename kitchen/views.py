@@ -72,6 +72,19 @@ class DishTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = "kitchen/dish_type_form.html"
     success_url = reverse_lazy("kitchen:dish_type-list")
 
+    def form_valid(self, form):
+        messages.success(self.request, "Dish type update successfully!")
+        return super().form_valid(form)
+
+
+class DishTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = DishType
+    success_url = reverse_lazy("kitchen:dish_type-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "Dish type deleted successfully!")
+        return super().form_valid(form)
+
 
 class DishDetailView(LoginRequiredMixin, generic.DetailView):
     model = Dish

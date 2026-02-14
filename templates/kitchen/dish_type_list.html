@@ -19,7 +19,7 @@
             <a class="btn btn-outline-secondary"
                href="{% url 'kitchen:dish_type-update' pk=type.id %}">Edit</a>
             <a class="btn btn-outline-danger"
-               href="#">Delete</a>
+               href="{% url 'kitchen:dish_type-delete' pk=type.id %}">Delete</a>
           </div>
         </div>
       {% empty %}

@@ -18,7 +18,16 @@
     {% endfor %}
 
     <input type="submit" value="{% if object %}Save{% else %}Create{% endif %}" class="btn btn-primary">
-    <a class="btn btn-secondary" href="{% url 'kitchen:dish-list' %}">Cancel</a>
+    {% if object %}
+       <a class="btn btn-secondary"
+        href="{% url 'kitchen:dish-detail' pk=object.pk %}">
+        Cancel
+       </a>
+    {% else %}
+      <a class="btn btn-secondary" href="{% url 'kitchen:dish-list' %}">
+     Cancel
+      </a>
+{% endif %}
   </form>
 
 {% endblock %}
