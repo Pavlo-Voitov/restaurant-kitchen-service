@@ -1,6 +1,6 @@
 from django import forms
 
-from kitchen.models import Dish, DishIngredient
+from kitchen.models import Dish, DishIngredient, DishType
 from django.forms import inlineformset_factory
 
 
@@ -22,3 +22,8 @@ class InviteCookForm(forms.Form):
         max_length=150,
         label="Cook username",
     )
+
+class DishTypeCreateForm(forms.ModelForm):
+    class Meta:
+        model = DishType
+        fields = "__all__"

@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .forms import DishForm, DishIngredientFormSet, InviteCookForm
+from .forms import DishForm, DishIngredientFormSet, InviteCookForm, DishTypeCreateForm
 from .models import Dish, DishType, Cook
 
 
@@ -120,6 +120,13 @@ class DishDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
         response = super().form_valid(form)
         messages.success(self.request, "Dish deleted successfully!")
         return response
+
+class DishTypeCreateView(LoginRequiredMixin, generic.CreateView):
+    model = DishType
+    form_class = DishTypeCreateForm
+    template_name = "kitchen/dish_type_form.html"
+    success_url = reverse_lazy("kitchen:dish-list")
+
 
 
 @login_required
