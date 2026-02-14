@@ -39,13 +39,13 @@
   </form>
 
   {% if dishes %}
-  <table class="table  table-hover">
+  <table class="table table-hover align-middle">
       <thead class="table-light">
         <tr>
         <th>Name of the dish</th>
         <th>Type of dish</th>
         <th>Price</th>
-        <th>Number of cooks</th>
+        <th class="text-end">Number of cooks</th>
       </tr>
       </thead>
 
@@ -55,7 +55,7 @@
             <td><a href="{{ dish.get_absolute_url }}">{{ dish.name }}</a></td>
             <td>{{ dish.dish_type.name }}</td>
             <td class="text-end">{{ dish.price }}</td>
-            <td class="badge bg-secondary">{{ dish.cooks_count }}</td>
+            <td class="badge bg-secondary text-end">{{ dish.cooks_count }}</td>
           </tr>
         {% endfor %}
       </tbody>

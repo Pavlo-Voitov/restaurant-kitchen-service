@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db.models import Count
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
@@ -5,6 +6,7 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views.generic.list import MultipleObjectMixin
 
 from .forms import DishForm, DishIngredientFormSet, InviteCookForm, DishTypeCreateForm
 from .models import Dish, DishType, Cook
@@ -62,6 +64,18 @@ class DishDetailView(LoginRequiredMixin, generic.DetailView):
     model = Dish
 
 
+class CookDetailView(LoginRequiredMixin, generic.DetailView, MultipleObjectMixin):
+    model = get_user_model()
+    template_name = "kitchen/cook_detail.html"
+    paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+        dishes = self.object.dishes.all().select_related("dish_type")
+        context = super().get_context_data(object_list=dishes, **kwargs)
+        return context
+
+
 class DishCreateView(LoginRequiredMixin, generic.CreateView):
     model = Dish
     form_class = DishForm
@@ -72,6 +86,13 @@ class DishCreateView(LoginRequiredMixin, generic.CreateView):
         self.object.cooks.add(self.request.user)
         messages.success(self.request, "Dish created successfully!")
         return response
+
+
+class DishTypeCreateView(LoginRequiredMixin, generic.CreateView):
+    model = DishType
+    form_class = DishTypeCreateForm
+    template_name = "kitchen/dish_type_form.html"
+    success_url = reverse_lazy("kitchen:dish-list")
 
 
 class DishUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
@@ -120,12 +141,6 @@ class DishDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
         response = super().form_valid(form)
         messages.success(self.request, "Dish deleted successfully!")
         return response
-
-class DishTypeCreateView(LoginRequiredMixin, generic.CreateView):
-    model = DishType
-    form_class = DishTypeCreateForm
-    template_name = "kitchen/dish_type_form.html"
-    success_url = reverse_lazy("kitchen:dish-list")
 
 
 

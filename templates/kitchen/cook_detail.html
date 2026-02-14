@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2 class="mb-0">{{ cook.first_name }} {{ cook.last_name }}</h2>
+<p class="text-muted mb-1"><strong>Username:</strong> {{ cook.get_username }}</p>
+<p class="mb-1"><strong>Years of experience:</strong> {{ cook.years_of_experience|default:"—" }}</p>
+<p class="mt-0"><strong>Is staff:</strong> {{ cook.is_staff }}</p>
+
+<hr>
+
+<h4 class="mt-4">Dishes</h4>
+
+{% if object_list %}
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th class="text-end">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for dish in object_list %}
+          <tr>
+            <td>
+              <a href="{% url 'kitchen:dish-detail' pk=dish.id %}">
+                {{ dish.name }}
+              </a>
+            </td>
+            <td>{{ dish.dish_type.name }}</td>
+            <td class="text-end">{{ dish.price }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{% else %}
+  <p class="text-muted">No dishes yet.</p>
+{% endif %}
+{% endblock %}

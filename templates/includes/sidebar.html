@@ -45,9 +45,18 @@
 
 <br>
 
+<a href="#"
+   class="list-group-item text-middle badge">
+  Type Manager
+</a>
+
+<br>
+
 {% if user.is_authenticated %}
 
-  <li class="list-group-item badge">Cook: {{ user.get_username }}</li>
+  <li class="list-group-item badge">
+    <a href="{{ user.get_absolute_url }}">Cook: {{ user.get_username }}</a>
+  </li>
   <li class="list-group-item badge">
     <form method="post" action="{% url 'logout' %}">
       {% csrf_token %}
