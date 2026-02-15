@@ -52,6 +52,13 @@
 
 <br>
 
+<a href="{% url 'kitchen:ingredient-list' %}"
+   class="list-group-item text-middle badge">
+  Ingredient Manager
+</a>
+
+<br>
+
 {% if user.is_authenticated %}
 
   <li class="list-group-item badge">

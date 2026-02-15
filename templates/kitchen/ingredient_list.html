@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">Ingredients</h1>
+  <a class="btn btn-primary" href="{% url 'kitchen:ingredient-create' %}">
+    + Add ingredient
+  </a>
+</div>
+
+<div class="card shadow-sm mb-4">
+  <div class="card-body p-0">
+    <div class="list-group list-group-flush">
+      {% for ingredient in ingredients %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          <div class="fw-semibold">{{ ingredient.name }}</div>
+
+          <div class="btn-group btn-group-sm" role="group">
+            <a class="btn btn-outline-secondary"
+               href="{% url 'kitchen:ingredient-update' pk=ingredient.id %}">
+              Edit
+            </a>
+            <a class="btn btn-outline-danger"
+               href="{% url 'kitchen:ingredient-delete' pk=ingredient.id %}">Delete</a>
+          </div>
+        </div>
+      {% empty %}
+        <div class="p-3 text-muted">No ingredient yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

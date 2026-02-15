@@ -8,7 +8,8 @@ from .views import (index,
                     DishDeleteView,
                     invite_me_to_create_dish,
                     DishTypeCreateView, CookDetailView, CookUpdateView, DishTypeListView, DishTypeUpdateView,
-                    DishTypeDeleteView, )
+                    DishTypeDeleteView, IngredientListView, IngredientCreateView, IngredientUpdateView,
+                    IngredientDeleteView, )
 
 urlpatterns = [
     path("", index, name="index"),
@@ -24,6 +25,10 @@ urlpatterns = [
     path("dish_type/<int:pk>/delete", DishTypeDeleteView.as_view(), name="dish_type-delete"),
     path("cook/<int:pk>/", CookDetailView.as_view(), name="cook-detail"),
     path("cook/me/update/", CookUpdateView.as_view(), name="cook-update"),
+    path("ingredients/", IngredientListView.as_view(), name="ingredient-list"),
+    path("ingredients/create", IngredientCreateView.as_view(), name="ingredient-create"),
+    path("ingredients/<int:pk>/update", IngredientUpdateView.as_view(), name="ingredient-update"),
+    path("ingredients/<int:pk>/delete", IngredientDeleteView.as_view(), name="ingredient-delete"),
 ]
 
 app_name = "kitchen"

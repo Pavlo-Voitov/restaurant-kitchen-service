@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
-from kitchen.models import Dish, DishIngredient, DishType
+from kitchen.models import Dish, DishIngredient, DishType, Ingredient
 from django.forms import inlineformset_factory
 
 
@@ -27,6 +27,12 @@ class InviteCookForm(forms.Form):
 class DishTypeForm(forms.ModelForm):
     class Meta:
         model = DishType
+        fields = "__all__"
+
+
+class IngredientForm(forms.ModelForm):
+    class Meta:
+        model = Ingredient
         fields = "__all__"
 
 

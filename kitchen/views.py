@@ -8,8 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic.list import MultipleObjectMixin
 
-from .forms import DishForm, DishIngredientFormSet, InviteCookForm, CookUpdateForm, DishTypeForm
-from .models import Dish, DishType, Cook
+from .forms import DishForm, DishIngredientFormSet, InviteCookForm, CookUpdateForm, DishTypeForm, IngredientForm
+from .models import Dish, DishType, Cook, Ingredient
 
 
 @login_required
@@ -107,11 +107,30 @@ class DishCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = DishForm
     success_url = reverse_lazy("kitchen:dish-list")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.request.method == "POST":
+            context["formset"] = DishIngredientFormSet(self.request.POST)
+        else:
+            context["formset"] = DishIngredientFormSet()
+
+        return context
+
     def form_valid(self, form):
-        response = super().form_valid(form)
+        context = self.get_context_data()
+        formset = context["formset"]
+
+        if not formset.is_valid():
+            return self.form_invalid(form)
+
+        self.object = form.save()
         self.object.cooks.add(self.request.user)
+        formset.instance = self.object
+        formset.save()
         messages.success(self.request, "Dish created successfully!")
-        return response
+
+        return super().form_valid(form)
 
 
 class DishTypeCreateView(LoginRequiredMixin, generic.CreateView):
@@ -188,6 +207,42 @@ class DishDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
         messages.success(self.request, "Dish deleted successfully!")
         return response
 
+
+class IngredientListView(LoginRequiredMixin, generic.ListView):
+    model = Ingredient
+    paginate_by = 5
+    context_object_name = "ingredients"
+
+
+class IngredientCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Ingredient
+    form_class = IngredientForm
+    template_name = "kitchen/ingredient_form.html"
+    success_url = reverse_lazy("kitchen:ingredient-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "Ingredient created successfully!")
+        return super().form_valid(form)
+
+
+class IngredientUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Ingredient
+    form_class = IngredientForm
+    template_name = "kitchen/ingredient_form.html"
+    success_url = reverse_lazy("kitchen:ingredient-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "Ingredient updated successfully!")
+        return super().form_valid(form)
+
+
+class IngredientDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Ingredient
+    success_url = reverse_lazy("kitchen:ingredient-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "Ingredient deleted successfully!")
+        return super().form_valid(form)
 
 
 @login_required
