@@ -65,6 +65,25 @@ class DishTypeListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "types"
     template_name = "kitchen/dish_type_list.html"
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(DishTypeListView, self).get_context_data(**kwargs)
+
+        search_query = self.request.GET.get("search")
+        context["search_query"] = search_query
+
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        search = self.request.GET.get("search")
+        if search:
+            queryset = queryset.filter(name__icontains=search)
+
+        return queryset
+
+
+
 
 class DishTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
     model =DishType
@@ -97,8 +116,15 @@ class CookDetailView(LoginRequiredMixin, generic.DetailView, MultipleObjectMixin
 
     def get_context_data(self, **kwargs):
         self.object = self.get_object()
-        dishes = self.object.dishes.all().select_related("dish_type")
+        dishes = self.object.dishes.select_related("dish_type")
+
+        search = self.request.GET.get("search")
+        if search:
+            dishes = dishes.filter(name__icontains=search)
+
         context = super().get_context_data(object_list=dishes, **kwargs)
+        context["search_query"] = search
+
         return context
 
 
@@ -212,6 +238,24 @@ class IngredientListView(LoginRequiredMixin, generic.ListView):
     model = Ingredient
     paginate_by = 5
     context_object_name = "ingredients"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(IngredientListView, self).get_context_data(**kwargs)
+
+        search_query = self.request.GET.get("search")
+        context["search_query"] = search_query
+
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        search = self.request.GET.get("search")
+        if search:
+            queryset = queryset.filter(name__icontains=search)
+
+        return queryset
+
 
 
 class IngredientCreateView(LoginRequiredMixin, generic.CreateView):

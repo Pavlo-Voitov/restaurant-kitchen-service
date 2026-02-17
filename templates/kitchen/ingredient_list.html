@@ -8,6 +8,29 @@
   </a>
 </div>
 
+  <form action="" method="get">
+    <div class="row col-md-6">
+      <input
+        type="text"
+        name="search"
+        class="form-control"
+        value="{{ search_query }}"
+      >
+    </div>
+
+    <div class="row col-md-auto">
+      <button type="submit" class="btn btn-primary mt-2">
+        Search
+      </button>
+
+      <a href="{% url 'kitchen:ingredient-list' %}" class="btn btn-outline-secondary mt-2 ml-2">
+        Reset
+      </a>
+    </div>
+  </form>
+
+<br>
+
 <div class="card shadow-sm mb-4">
   <div class="card-body p-0">
     <div class="list-group list-group-flush">

@@ -3,13 +3,13 @@
 {% block content %}
   <h1>
     Dish list
-    <a href="{% url 'kitchen:dish-create' %}" class="btn btn-primary link-to-page">
+    <a href="{% url 'kitchen:dish-create' %}" class="btn btn-primary link-to-page ml-2">
       Create
     </a>
   </h1>
 
   <form action="" method="get">
-    <div class="col-md-6">
+    <div class="row col-md-6">
       <input
         type="text"
         name="search"
@@ -27,12 +27,12 @@
       <input type="hidden" name="cook" value="{{ selected_cook }}">
     {% endif %}
 
-    <div class="col-md-auto">
-      <button type="submit" class="btn btn-primary mt-2">
+    <div class="row col-md-auto ">
+      <button type="submit" class="btn btn-primary mt-2 mb-2">
         Search
       </button>
 
-      <a href="{% url 'kitchen:dish-list' %}" class="btn btn-outline-secondary mt-2">
+      <a href="{% url 'kitchen:dish-list' %}" class="btn btn-outline-secondary mt-2 ml-2 mb-2">
         Reset
       </a>
     </div>

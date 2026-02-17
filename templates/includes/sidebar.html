@@ -1,8 +1,6 @@
-<ul class="sidebar-nav list-group">
+<h2>Types of dish</h2>
 
-
-
-  <h2>Types of dish</h2>
+<ul class="sidebar-nav list-group sidebar-scroll">
 
     <a href="/dishes/"
        class="list-group-item list-group-item-action badge
@@ -23,8 +21,8 @@
 
 <br>
 
-<ul class="sidebar-nav list-group">
-  <h2>Cooks</h2>
+<h2>Cooks</h2>
+<ul class="sidebar-nav list-group sidebar-scroll">
 
     <a href="/dishes/"
        class="list-group-item list-group-item-action badge
@@ -42,33 +40,3 @@
   {% endfor %}
 
 </ul>
-
-<br>
-
-<a href="{% url 'kitchen:dish_type-list' %}"
-   class="list-group-item text-middle badge">
-  Type Manager
-</a>
-
-<br>
-
-<a href="{% url 'kitchen:ingredient-list' %}"
-   class="list-group-item text-middle badge">
-  Ingredient Manager
-</a>
-
-<br>
-
-{% if user.is_authenticated %}
-
-  <li class="list-group-item badge">
-    <a href="{{ user.get_absolute_url }}">Cook: {{ user.get_username }}</a>
-  </li>
-  <li class="list-group-item badge">
-    <form method="post" action="{% url 'logout' %}">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-link p-0">Logout</button>
-    </form>
-  </li>
-
-{% endif %}

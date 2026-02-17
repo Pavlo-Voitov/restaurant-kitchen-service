@@ -1,0 +1,8 @@
+.sidebar-scroll {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+body {
+    background-color: #EDEAD2;
+}
