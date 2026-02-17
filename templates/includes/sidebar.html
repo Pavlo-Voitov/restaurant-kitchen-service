@@ -1,20 +1,35 @@
 <h2>Types of dish</h2>
 
+<form method="get" class="mb-2">
+  {% for key, value in request.GET.items %}
+    {% if key != "type_query" and key != "page" %}
+      <input type="hidden" name="{{ key }}" value="{{ value }}">
+    {% endif %}
+  {% endfor %}
+
+  <input
+    type="text"
+    name="type_q"
+    class="form-control form-control-sm"
+    placeholder="Search type..."
+    value="{{ type_query }}"
+  >
+</form>
+
 <ul class="sidebar-nav list-group sidebar-scroll">
 
-    <a href="/dishes/"
+    <a href="{% url 'kitchen:dish-list' %}"
        class="list-group-item list-group-item-action badge
        {% if not selected_dish_type %}active{% endif %}">
       All Types of Dish
     </a>
 
-  {% for dish_type in types_of_dish %}
-    <a href="?dish_type={{ dish_type.id }}"
-       class="list-group-item list-group-item-action text-middle badge
+  {% for dish_type in sidebar_types %}
+    <a href="{% url 'kitchen:dish-list' %}?dish_type={{ dish_type.id }}"
+       class="list-group-item list-group-item-action badge
        {% if dish_type.id == selected_dish_type %}active{% endif %}">
-       {{ dish_type.name }} ({{ dish_type.dishes_count }})
+      {{ dish_type.name }} ({{ dish_type.dish_count }})
     </a>
-
   {% endfor %}
 
 </ul>
@@ -22,16 +37,33 @@
 <br>
 
 <h2>Cooks</h2>
+
+<form method="get" class="mb-2">
+  {% for key, value in request.GET.items %}
+    {% if key != "cook_query" and key != "page" %}
+      <input type="hidden" name="{{ key }}" value="{{ value }}">
+    {% endif %}
+  {% endfor %}
+
+  <input
+    type="text"
+    name="cook_q"
+    class="form-control form-control-sm"
+    placeholder="Search cook..."
+    value="{{ cook_query }}"
+  >
+</form>
+
 <ul class="sidebar-nav list-group sidebar-scroll">
 
-    <a href="/dishes/"
+    <a href="{% url 'kitchen:dish-list' %}"
        class="list-group-item list-group-item-action badge
        {% if not selected_cook %}active{% endif %}">
       All Cooks
     </a>
 
-  {% for cook in cooks %}
-    <a href="?cook={{ cook.id }}"
+  {% for cook in sidebar_cooks %}
+    <a href="{% url 'kitchen:dish-list' %}?cook={{ cook.id }}"
        class="list-group-item list-group-item-action text-middle badge
        {% if cook.id == selected_cook %}active{% endif %}">
        {{ cook.username }}

@@ -25,9 +25,6 @@ class DishListView(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(DishListView, self).get_context_data(**kwargs)
 
-        types_of_dish = DishType.objects.annotate(dishes_count=Count("dishes"))
-        context["types_of_dish"] = types_of_dish
-
         selected_dish_type = self.request.GET.get("dish_type")
         context["selected_dish_type"] = int(selected_dish_type) if selected_dish_type else None
 
@@ -81,8 +78,6 @@ class DishTypeListView(LoginRequiredMixin, generic.ListView):
             queryset = queryset.filter(name__icontains=search)
 
         return queryset
-
-
 
 
 class DishTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
