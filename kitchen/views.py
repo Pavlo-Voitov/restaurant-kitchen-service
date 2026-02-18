@@ -28,9 +28,7 @@ class DishListView(LoginRequiredMixin, generic.ListView):
         selected_dish_type = self.request.GET.get("dish_type")
         context["selected_dish_type"] = int(selected_dish_type) if selected_dish_type else None
 
-        cooks = Cook.objects.all()
         selected_cook = self.request.GET.get("cook")
-        context["cooks"] = cooks
         context["selected_cook"] = int(selected_cook) if selected_cook else None
 
         search_query = self.request.GET.get("search")

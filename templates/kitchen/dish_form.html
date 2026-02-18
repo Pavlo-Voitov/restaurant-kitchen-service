@@ -11,23 +11,59 @@
 
     {{ formset.management_form }}
 
-    {% for f in formset %}
-      <div class="border rounded p-3 mb-2">
-        {{ f|crispy }}
-      </div>
-    {% endfor %}
+    <div id="ingredients-forms">
+      {% for f in formset %}
+        <div class="border rounded p-3 mb-2 ingredient-form">
+          {{ f|crispy }}
+        </div>
+      {% endfor %}
+    </div>
 
-    <input type="submit" value="{% if object %}Save{% else %}Create{% endif %}" class="btn btn-primary">
+    <div id="empty-ingredient-form" class="d-none">
+      <div class="border rounded p-3 mb-2 ingredient-form">
+        {{ formset.empty_form|crispy }}
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-outline-primary mb-3" id="add-ingredient">
+      + Add ingredient
+    </button>
+
+    <br>
+
+    <input type="submit" value="{% if object %}Save{% else %}Create{% endif %}"
+           class="btn btn-primary mt-2">
     {% if object %}
-       <a class="btn btn-secondary"
+       <a class="btn btn-secondary mt-2"
         href="{% url 'kitchen:dish-detail' pk=object.pk %}">
         Cancel
        </a>
     {% else %}
-      <a class="btn btn-secondary" href="{% url 'kitchen:dish-list' %}">
+      <a class="btn btn-secondary mt-2" href="{% url 'kitchen:dish-list' %}">
      Cancel
       </a>
 {% endif %}
   </form>
+
+<script>
+  (function () {
+    const addBtn = document.getElementById("add-ingredient");
+    const formsContainer = document.getElementById("ingredients-forms");
+    const emptyFormContainer = document.getElementById("empty-ingredient-form");
+
+    if (!addBtn || !formsContainer || !emptyFormContainer) return;
+    const totalFormsInput = document.querySelector('input[name$="-TOTAL_FORMS"]');
+    if (!totalFormsInput) return;
+
+    addBtn.addEventListener("click", () => {
+      const formIndex = parseInt(totalFormsInput.value, 10);
+
+      const newFormHtml = emptyFormContainer.innerHTML.replaceAll("__prefix__", formIndex);
+
+      formsContainer.insertAdjacentHTML("beforeend", newFormHtml);
+      totalFormsInput.value = formIndex + 1;
+    });
+  })();
+</script>
 
 {% endblock %}

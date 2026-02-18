@@ -5,7 +5,7 @@
   <p class="text-muted mb-1"><strong>Username:</strong> <a href="{% url 'kitchen:cook-update' %}">{{ cook.get_username }}</a></p>
 <p class="mb-1"><strong>Years of experience:</strong> {{ cook.years_of_experience|default:"—" }}</p>
 <p class="mb-1"><strong>Is staff:</strong> {{ cook.is_staff }}</p>
-<p><strong>Years of experience:</strong> {{ cook.email|default:"—" }}</p>
+<p><strong>Email:</strong> {{ cook.email|default:"—" }}</p>
 
 <hr>
 
