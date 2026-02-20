@@ -3,13 +3,31 @@
 
 {% block content %}
 
-  <h1>Login</h1>
-  <form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    {{ form|crispy }}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
 
-    <input type="submit" value="Login" class="btn btn-primary" />
-    <input type="hidden" name="next" value="{{ next }}" />
-  </form>
+    <div class="card shadow-sm p-4 mt-4">
+
+      <h2 class="text-center mb-4">Login</h2>
+
+      <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+
+        {{ form|crispy }}
+
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <div class="d-grid mt-3">
+          <button type="submit" class="btn btn-primary">
+            Login
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+</div>
 
 {% endblock %}

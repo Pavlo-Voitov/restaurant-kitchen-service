@@ -1,8 +1,177 @@
 .sidebar-scroll {
-  max-height: 300px;
+  max-height: 400px;
   overflow-y: auto;
+  padding-right: 2px;
 }
 
 body {
-    background-color: #EDEAD2;
+    background-color: #f6f3e6;
 }
+
+
+.main-content {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.05);
+}
+
+.sidebar-card {
+  background: transparent;
+}
+
+.list-group-item {
+  border-radius: 10px;
+  margin-bottom: 6px;
+  border: 1px solid rgba(0,0,0,.08);
+}
+
+.toolbar {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 12px;
+  padding: 10px;
+}
+.toolbar .btn {
+  border-radius: 10px;
+}
+
+.table thead th {
+  border-top: 0;
+  font-weight: 600;
+}
+.table tbody tr:hover {
+  background: rgba(0, 123, 255, 0.06); /* легкий hover */
+}
+
+.table .badge{
+  padding: .45em .6em;
+  border-radius: 8px;
+}
+
+.sidebar-section-title{
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin: 10px 0 10px;
+  letter-spacing: .2px;
+}
+
+.sidebar-search .form-control{
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.10);
+}
+
+.sidebar-nav .list-group-item{
+  border-radius: 12px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(0,0,0,.08);
+  padding: 10px 12px;
+  font-weight: 600;
+}
+
+.sidebar-nav .list-group-item:hover{
+  transform: translateY(-1px);
+  transition: .12s ease;
+}
+
+.sidebar-nav .list-group-item.active{
+  background: #0d6efd;          /* bootstrap primary */
+  border-color: rgba(13,110,253,.25);
+}
+
+.sidebar-nav .badge{
+  font-weight: 700;
+  border-radius: 999px;
+}
+
+.sidebar-nav .list-group-item.active .badge{
+  background: rgba(255,255,255,.85);
+  color: #0d6efd;
+}
+
+.setting-bar{
+  position: sticky;
+  top: 12px;              /* відступ зверху */
+  z-index: 1020;          /* вище контенту */
+}
+
+/* Щоб виглядало “легше” при прилипанні */
+.setting-bar{
+  border-radius: 12px;
+}
+
+.setting-bar .card-body{
+  padding: 10px 12px;
+}
+
+.ingredient-amount{
+  font-variant-numeric: tabular-nums;
+  min-width: 120px;
+  text-align: right;
+}
+
+.type-list .list-group-item {
+  padding: 14px 16px;
+  border-color: rgba(0,0,0,.06);
+}
+
+.type-list .list-group-item:hover {
+  background: rgba(0, 123, 255, 0.04);
+}
+
+.type-list .btn-group .btn {
+  border-radius: 10px;
+}
+
+.type-card {
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.page-header{
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.btn-outline-danger{
+  border-color: rgba(220,53,69,.45);
+}
+
+.confirm-wrap{
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.confirm-card{
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.06);
+}
+
+.form-wrap{
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.form-card{
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.06);
+}
+
+.form-card .card-header{
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  font-weight: 500;
+}
+
+.form-actions{
+  border-top: 1px solid rgba(0,0,0,.06);
+  padding-top: 16px;
+}
+
+.form-card .text-right{
+  min-width: 220px;
+}
+
+

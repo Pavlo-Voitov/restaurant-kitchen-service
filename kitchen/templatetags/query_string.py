@@ -10,5 +10,8 @@ def query_string(request, **kwargs):
         params.pop("page")
 
     for k, v in kwargs.items():
-        params[k] = v
+        if v in (None, "", False):
+            params.pop(k, None)
+        else:
+            params[k] = v
     return params.urlencode()

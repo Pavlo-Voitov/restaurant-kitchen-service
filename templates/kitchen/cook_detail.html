@@ -1,67 +1,93 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2 class="mb-0">{{ cook.first_name }} {{ cook.last_name }}</h2>
-  <p class="text-muted mb-1"><strong>Username:</strong> <a href="{% url 'kitchen:cook-update' %}">{{ cook.get_username }}</a></p>
-<p class="mb-1"><strong>Years of experience:</strong> {{ cook.years_of_experience|default:"—" }}</p>
-<p class="mb-1"><strong>Is staff:</strong> {{ cook.is_staff }}</p>
-<p><strong>Email:</strong> {{ cook.email|default:"—" }}</p>
+<div class="form-wrap">
 
-<hr>
+  <!-- Cook header card -->
+  <div class="card shadow-sm form-card mb-4">
+    <div class="card-body">
 
-<h4 class="mt-4">Dishes</h4>
+      <div class="d-flex justify-content-between align-items-start flex-wrap">
+        <div>
+          <h2 class="mb-1">
+            {{ cook.first_name }} {{ cook.last_name }}
+          </h2>
 
-{% if object_list %}
-  <div class="table-responsive">
-    <table class="table table-hover align-middle">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th class="text-end">Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for dish in object_list %}
-          <tr>
-            <td>
-              <a href="{% url 'kitchen:dish-detail' pk=dish.id %}">
-                {{ dish.name }}
-              </a>
-            </td>
-            <td>{{ dish.dish_type.name }}</td>
-            <td class="text-end">{{ dish.price }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+          <div class="text-muted mb-2">
+            <strong>Username:</strong>
+            <a href="{% url 'kitchen:cook-update' %}">{{ cook.get_username }}</a>
+          </div>
+        </div>
 
-{% else %}
-  <p class="text-muted">No dishes yet.</p>
-{% endif %}
+        <div class="text-right">
+          <div class="mb-1"><strong>Years:</strong> {{ cook.years_of_experience|default:"—" }}</div>
+          <div class="mb-1"><strong>Staff:</strong> {{ cook.is_staff }}</div>
+          <div><strong>Email:</strong> {{ cook.email|default:"—" }}</div>
+        </div>
+      </div>
 
-<form method="get" class="mb-4">
-  <div class="row g-2 align-items-center">
-    <div class="col-md-6">
-      <input
-        type="text"
-        name="search"
-        class="form-control"
-        value="{{ search_query|default_if_none:'' }}"
-        placeholder="Search dishes..."
-      >
-    </div>
-
-    <div class="col-md-auto">
-      <button type="submit" class="btn btn-primary">
-        Search
-      </button>
-
-      <a href="{% url 'kitchen:cook-detail' pk=cook.pk %}" class="btn btn-outline-secondary">
-        Reset
-      </a>
     </div>
   </div>
-</form>
+
+  <!-- Dishes card -->
+  <div class="card shadow-sm form-card">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center flex-wrap">
+      <h4 class="mb-2 mb-md-0">Dishes</h4>
+
+      <form method="get" class="mb-0">
+        <div class="form-row align-items-center">
+          <div class="col-auto">
+            <input
+              type="text"
+              name="search"
+              class="form-control"
+              value="{{ search_query|default_if_none:'' }}"
+              placeholder="Search dishes..."
+            >
+          </div>
+
+          <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="{% url 'kitchen:cook-detail' pk=cook.pk %}" class="btn btn-outline-secondary ml-2">
+              Reset
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="card-body p-0">
+      {% if object_list %}
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="text-right">Price</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for dish in object_list %}
+                <tr>
+                  <td>
+                    <a href="{% url 'kitchen:dish-detail' pk=dish.id %}">
+                      {{ dish.name }}
+                    </a>
+                  </td>
+                  <td>{{ dish.dish_type.name }}</td>
+                  <td class="text-right">{{ dish.price }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <div class="p-3 text-muted">No dishes yet.</div>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
 {% endblock %}
