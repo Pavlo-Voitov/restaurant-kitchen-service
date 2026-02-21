@@ -22,7 +22,7 @@ def backwards(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("kitchen", "0008_alter_dish_ingredients"),  # Django підставить автоматом, перевір тільки
+        ("kitchen", "0009_dishingredient"),  # Django підставить автоматом, перевір тільки
     ]
 
     operations = [
