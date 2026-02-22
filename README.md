@@ -40,6 +40,7 @@ This project demonstrates CRUD operations, user authentication, search & filter,
 
 ## Project Structure
 
+```text
 restaurant-kitchen-service/
 ├─ kitchen/ # main Django app
 │ ├─ migrations/
@@ -54,7 +55,7 @@ restaurant-kitchen-service/
 ├─ templates/
 ├─ manage.py
 └─ README.md
-
+```
 
 ---
 
@@ -94,9 +95,13 @@ python manage.py runserver
 Running Tests: 
 To run all unit tests: python manage.py test
 
-Dish List: ![img.png](img.png)
+## Screenshots
 
-Dish detail: ![img_1.png](img_1.png)
+### Dish List: 
+![img.png](screenshots/img.png)
+
+### Dish detail: 
+![img_1.png](screenshots/img_1.png)
 
 
 Author
@@ -105,6 +110,3 @@ Pavlo Voitov
 Junior Python / Django Developer
 
 GitHub: https://github.com/Pavlo-Voitov
-
-
-
