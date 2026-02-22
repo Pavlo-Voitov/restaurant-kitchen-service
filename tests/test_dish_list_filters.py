@@ -14,9 +14,18 @@ class DishListFiltersTests(TestCase):
         self.t_soup = DishType.objects.create(name="Soups")
         self.t_pasta = DishType.objects.create(name="Pasta")
 
-        self.d1 = Dish.objects.create(name="Tomato Soup", description="a", price="10.00", dish_type=self.t_soup)
-        self.d2 = Dish.objects.create(name="Miso Soup", description="b", price="11.00", dish_type=self.t_soup)
-        self.d3 = Dish.objects.create(name="Carbonara", description="c", price="12.00", dish_type=self.t_pasta)
+        self.d1 = Dish.objects.create(name="Tomato Soup",
+                                      description="a",
+                                      price="10.00",
+                                      dish_type=self.t_soup)
+        self.d2 = Dish.objects.create(name="Miso Soup",
+                                      description="b",
+                                      price="11.00",
+                                      dish_type=self.t_soup)
+        self.d3 = Dish.objects.create(name="Carbonara",
+                                      description="c",
+                                      price="12.00",
+                                      dish_type=self.t_pasta)
 
         self.d1.cooks.add(self.c1)
         self.d2.cooks.add(self.c2)

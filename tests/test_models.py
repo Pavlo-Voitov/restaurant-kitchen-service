@@ -31,10 +31,15 @@ class ModelTests(TestCase):
 
         ingredient = Ingredient.objects.create(name="Salt")
 
-        DishIngredient.objects.create(dish=dish, ingredient=ingredient, amount=1, unit="g")
+        DishIngredient.objects.create(dish=dish,
+                                      ingredient=ingredient,
+                                      amount=1, unit="g")
 
         with self.assertRaises(IntegrityError):
-            DishIngredient.objects.create(dish=dish, ingredient=ingredient, amount=2, unit="g")
+            DishIngredient.objects.create(dish=dish,
+                                          ingredient=ingredient,
+                                          amount=2,
+                                          unit="g")
 
     def test_cook_get_absolute_url(self):
         Cook = get_user_model()

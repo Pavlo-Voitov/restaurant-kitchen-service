@@ -1,15 +1,28 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Count
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import (redirect,
+                              render,
+                              get_object_or_404)
 from django.urls import reverse_lazy
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    UserPassesTestMixin)
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic.list import MultipleObjectMixin
 
-from .forms import DishForm, DishIngredientFormSet, InviteCookForm, CookUpdateForm, DishTypeForm, IngredientForm
-from .models import Dish, DishType, Cook, Ingredient
+from .forms import (DishForm,
+                    DishIngredientFormSet,
+                    InviteCookForm,
+                    CookUpdateForm,
+                    DishTypeForm,
+                    IngredientForm)
+
+from .models import (Dish,
+                     DishType,
+                     Cook,
+                     Ingredient)
 
 
 @login_required
@@ -26,7 +39,8 @@ class DishListView(LoginRequiredMixin, generic.ListView):
         context = super(DishListView, self).get_context_data(**kwargs)
 
         selected_dish_type = self.request.GET.get("dish_type")
-        context["selected_dish_type"] = int(selected_dish_type) if selected_dish_type else None
+        context["selected_dish_type"] = int(selected_dish_type) \
+            if selected_dish_type else None
 
         selected_cook = self.request.GET.get("cook")
         context["selected_cook"] = int(selected_cook) if selected_cook else None
@@ -38,7 +52,12 @@ class DishListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.select_related("dish_type").annotate(cooks_count=Count("cooks", distinct=True))
+        queryset = queryset.select_related("dish_type").annotate(
+            cooks_count=Count(
+                "cooks",
+                distinct=True
+            )
+        )
 
         dish_type = self.request.GET.get("dish_type")
         if dish_type:
@@ -53,6 +72,7 @@ class DishListView(LoginRequiredMixin, generic.ListView):
             queryset = queryset.filter(name__icontains=search)
 
         return queryset
+
 
 class DishTypeListView(LoginRequiredMixin, generic.ListView):
     model = DishType
@@ -79,7 +99,7 @@ class DishTypeListView(LoginRequiredMixin, generic.ListView):
 
 
 class DishTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
-    model =DishType
+    model = DishType
     form_class = DishTypeForm
     template_name = "kitchen/dish_type_form.html"
     success_url = reverse_lazy("kitchen:dish_type-list")
@@ -177,9 +197,15 @@ class DishUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
         self.object = self.get_object()
         form = self.get_form()
         formset = DishIngredientFormSet(instance=self.object)
-        return render(request, self.template_name, {"form": form,
-                                                    "formset": formset,
-                                                    "object": self.object,})
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "formset": formset,
+                "object": self.object,
+            }
+        )
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -192,9 +218,16 @@ class DishUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
             messages.success(request, "Dish updated successfully!")
             return redirect(self.success_url)
 
-        return render(request, self.template_name, {"form": form,
-                                                    "formset": formset,
-                                                    "object": self.object,})
+        return render(
+            request,
+            self.template_name,
+            {
+                "form": form,
+                "formset": formset,
+                "object": self.object,
+            }
+        )
+
 
 class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = get_user_model()
@@ -250,7 +283,6 @@ class IngredientListView(LoginRequiredMixin, generic.ListView):
         return queryset
 
 
-
 class IngredientCreateView(LoginRequiredMixin, generic.CreateView):
     model = Ingredient
     form_class = IngredientForm
@@ -295,7 +327,7 @@ def invite_me_to_create_dish(request, pk):
 
     try:
         cook = Cook.objects.get(username=username)
-    except:
+    except Cook.DoesNotExist:
         messages.error(request, "User not found.")
         return redirect("kitchen:dish-detail", pk=pk)
 

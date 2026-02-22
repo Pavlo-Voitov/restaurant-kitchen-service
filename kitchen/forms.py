@@ -10,6 +10,7 @@ class DishForm(forms.ModelForm):
         model = Dish
         fields = ("name", "description", "price", "dish_type")
 
+
 DishIngredientFormSet = inlineformset_factory(
     parent_model=Dish,
     model=DishIngredient,
@@ -18,11 +19,13 @@ DishIngredientFormSet = inlineformset_factory(
     can_delete=True,
 )
 
+
 class InviteCookForm(forms.Form):
     username = forms.CharField(
         max_length=150,
         label="Cook username",
     )
+
 
 class DishTypeForm(forms.ModelForm):
     class Meta:
