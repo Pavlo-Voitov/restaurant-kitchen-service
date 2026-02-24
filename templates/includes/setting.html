@@ -1,0 +1,31 @@
+{% if user.is_authenticated %}
+<div class="card mb-3 shadow-sm setting-bar">
+  <div class="card-body d-flex flex-wrap gap-2">
+
+    <a href="{% url 'kitchen:dish_type-list' %}"
+       class="btn btn-outline-primary btn-sm">
+      Type Manager
+    </a>
+
+    <a href="{% url 'kitchen:ingredient-list' %}"
+       class="btn btn-outline-primary btn-sm">
+      Ingredient Manager
+    </a>
+
+    <a href="{{ user.get_absolute_url }}"
+       class="btn btn-outline-secondary btn-sm">
+      {{ user.get_username }}
+    </a>
+
+    <form method="post"
+          action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit"
+              class="btn btn-outline-danger btn-sm">
+        Logout
+      </button>
+    </form>
+
+  </div>
+</div>
+{% endif %}

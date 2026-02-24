@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow-sm p-4">
+  <div class="card-body">
+
+    <div class="d-flex align-items-start justify-content-between mb-2">
+      <div>
+        <h2 class="card-title mb-1">{{ dish.name }}</h2>
+        <div class="text-muted">
+          Type: <span class="badge badge-primary">{{ dish.dish_type }}</span>
+          <span class="ml-2 text-success font-weight-bold">Price: {{ dish.price }} $</span>
+        </div>
+      </div>
+
+      {% if user in dish.cooks.all %}
+      <div class="text-nowrap">
+        <a href="{% url 'kitchen:dish-update' pk=dish.id %}" class="btn btn-sm btn-outline-primary">Update</a>
+        <a href="{% url 'kitchen:dish-delete' pk=dish.id %}" class="btn btn-sm btn-outline-danger ml-2">Delete</a>
+      </div>
+      {% endif %}
+    </div>
+    <hr>
+
+
+    <hr>
+
+    <h5 class="mt-3">Ingredients</h5>
+
+    {% with items=dish.dishingredient_set.all %}
+    {% if items %}
+    <ul class="list-group list-group-flush mb-3">
+      {% for item in items %}
+      <li class="list-group-item py-2 d-flex justify-content-between">
+        <span>{{ item.ingredient.name }}</span>
+        <span class="text-muted ingredient-amount">
+          {% if item.amount %}{{ item.amount }}{% endif %}
+          {% if item.unit %} {{ item.unit }}{% endif %}
+        </span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-muted mb-3">No ingredients yet.</p>
+    {% endif %}
+    {% endwith %}
+
+    <hr>
+
+    {% if user in dish.cooks.all %}
+    <div class="mt-4 p-3 border rounded bg-light">
+      <h5 class="mb-2">Invite cook</h5>
+      <form method="post" action="{% url 'kitchen:cook-invite' pk=dish.id %}">
+        {% csrf_token %}
+        <div class="input-group">
+          <input type="text" name="username" class="form-control" placeholder="Enter username" required>
+          <div class="input-group-append">
+            <button class="btn btn-success" type="submit">Invite</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}

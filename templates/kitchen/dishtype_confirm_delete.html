@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="confirm-wrap">
+  <div class="card shadow-sm confirm-card">
+    <div class="card-body">
+      <h1 class="h4 mb-2">Delete dish type?</h1>
+
+      <p class="text-muted mb-3">
+        You are going to delete
+        <span class="font-weight-bold">“{{ object.name }}”</span>.
+        This action cannot be undone.
+      </p>
+
+      <form method="post" class="d-flex flex-wrap align-items-center">
+        {% csrf_token %}
+
+        <button type="submit" class="btn btn-danger mr-2 mb-2">
+          Yes, delete
+        </button>
+
+        <a href="{% url 'kitchen:dish_type-list' %}" class="btn btn-outline-secondary mb-2">
+          Cancel
+        </a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

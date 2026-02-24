@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="form-wrap">
+
+  <!-- Dish main form card -->
+  <div class="card shadow-sm form-card mb-4">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+      <h1 class="h4 mb-0">
+        {% if object %}Update dish{% else %}Create dish{% endif %}
+      </h1>
+    </div>
+
+    <div class="card-body">
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+        {{ form|crispy }}
+
+        <!-- Ingredients card -->
+        <div class="card mt-4 ingredient-card">
+          <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Ingredients</h5>
+
+            <button type="button" class="btn btn-outline-primary btn-sm" id="add-ingredient">
+              + Add ingredient
+            </button>
+          </div>
+
+          <div class="card-body">
+            {{ formset.management_form }}
+
+            <div id="ingredients-forms">
+              {% for f in formset %}
+                <div class="ingredient-form mb-2">
+                  {{ f|crispy }}
+                </div>
+              {% endfor %}
+            </div>
+
+            <div id="empty-ingredient-form" class="d-none">
+              <div class="ingredient-form mb-2">
+                {{ formset.empty_form|crispy }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions mt-4 d-flex justify-content-end">
+          {% if object %}
+            <a class="btn btn-outline-secondary mr-2"
+               href="{% url 'kitchen:dish-detail' pk=object.pk %}">
+              Cancel
+            </a>
+          {% else %}
+            <a class="btn btn-outline-secondary mr-2"
+               href="{% url 'kitchen:dish-list' %}">
+              Cancel
+            </a>
+          {% endif %}
+
+          <button type="submit" class="btn btn-primary">
+            {% if object %}Save{% else %}Create{% endif %}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  (function () {
+    const addBtn = document.getElementById("add-ingredient");
+    const formsContainer = document.getElementById("ingredients-forms");
+    const emptyFormContainer = document.getElementById("empty-ingredient-form");
+
+    if (!addBtn || !formsContainer || !emptyFormContainer) return;
+
+    const totalFormsInput = document.querySelector('input[name$="-TOTAL_FORMS"]');
+    if (!totalFormsInput) return;
+
+    addBtn.addEventListener("click", () => {
+      const formIndex = parseInt(totalFormsInput.value, 10);
+      const newFormHtml = emptyFormContainer.innerHTML.replace(/__prefix__/g, formIndex);
+
+      formsContainer.insertAdjacentHTML("beforeend", newFormHtml);
+      totalFormsInput.value = formIndex + 1;
+    });
+  })();
+</script>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex align-items-center justify-content-between mb-3">
+  <h1>
+    Dish list
+    <a href="{% url 'kitchen:dish-create' %}"
+       class="btn btn-primary link-to-page ml-2">
+      Create
+    </a>
+  </h1>
+</div>
+
+<form action="" method="get">
+
+  {% if selected_dish_type %}
+  <input type="hidden" name="dish_type" value="{{ selected_dish_type }}">
+  {% endif %}
+
+  {% if selected_cook %}
+  <input type="hidden" name="cook" value="{{ selected_cook }}">
+  {% endif %}
+
+  <div class="row g-2 align-items-center">
+    <div class="row col-md-6">
+      <input
+          type="text"
+          name="search"
+          class="form-control"
+          placeholder="Search dishes..."
+          value="{{ search_query|default_if_none:'' }}"
+      >
+    </div>
+
+    <div class="col-md-auto">
+      <button type="submit" class="btn btn-primary mt-2 mb-2">
+        Search
+      </button>
+
+      <a href="{% url 'kitchen:dish-list' %}" class="btn btn-outline-secondary ms-2">
+        Reset
+      </a>
+    </div>
+  </div>
+
+</form>
+
+{% if dishes %}
+<div class="table-responsive">
+  <table class="table table-hover align-middle mb-0">
+    <thead class="table-light">
+    <tr>
+      <th>Name of the dish</th>
+      <th>Type of dish</th>
+      <th class="text-end">Price</th>
+      <th class="text-end">Number of cooks</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for dish in dishes %}
+    <tr>
+      <td><a href="{{ dish.get_absolute_url }}">{{ dish.name }}</a></td>
+      <td>{{ dish.dish_type.name }}</td>
+      <td class="text-end">{{ dish.price }}</td>
+      <td>
+        <span class="badge bg-secondary">{{ dish.cooks_count }}</span>
+      </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+
+  </table>
+</div>
+
+{% else %}
+  <hr>
+  <div class="alert alert-secondary mt-3 mb-0">
+    There is no dish.
+  </div>
+{% endif %}
+
+{% endblock %}
