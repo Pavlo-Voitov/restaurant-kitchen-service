@@ -110,3 +110,8 @@ Pavlo Voitov
 Junior Python / Django Developer
 
 GitHub: https://github.com/Pavlo-Voitov
+
+Available at primary URL : https://restaurant-kitchen-service-akh3.onrender.com
+
+Username: test_user
+Password: 12345test
